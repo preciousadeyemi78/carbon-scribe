@@ -20,7 +20,7 @@ import { ProjectComparisonService } from './services/project-comparison.service'
 import { RegionalService } from './services/regional.service';
 import { TeamPerformanceService } from './services/team-performance.service';
 import { TimelineService } from './services/timeline.service';
-import { AnalyticsQueryDto, DateRangeDto, ProjectComparisonDto, ChartDataDto } from './dto/analytics-query.dto';
+import { ChartDataDto } from './dto/analytics-query.dto';
 
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller('api/v1/analytics')

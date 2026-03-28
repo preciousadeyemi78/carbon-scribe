@@ -3,7 +3,6 @@ import { PrismaService } from '../../shared/database/prisma.service';
 import { CacheService } from '../../cache/cache.service';
 import { AnalyticsService } from '../analytics.service';
 import {
-  PredictiveInsights,
   RetirementForecast,
   ImpactForecast,
   TrendDetection,
@@ -35,7 +34,7 @@ export class PredictiveService {
 
     const historicalData = await this.getHistoricalRetirements(companyId, 36); // 3 years
     const forecast = this.generateForecast(historicalData, months);
-    const seasonalPattern = this.analyzeSeasonality(historicalData);
+    const seasonalPattern = this.analyzeSeasonality();
 
     const result: RetirementForecast = {
       forecast,
@@ -96,7 +95,7 @@ export class PredictiveService {
     const trends: TrendDetection[] = [];
 
     for (const metric of metrics) {
-      const data = await this.getMetricTimeSeries(companyId, metric, 12);
+      const data = await this.getMetricTimeSeries(metric, 12);
       const trend = this.analyzeTrendDirection(data);
       trends.push(trend);
     }
@@ -147,6 +146,10 @@ export class PredictiveService {
       const credits = await this.prisma.credit.findMany({
         where: {
           project: { companyId },
+          createdAt: {
+            gte: monthStart,
+            lte: monthEnd,
+          },
         },
         include: { project: true },
       });
@@ -159,7 +162,6 @@ export class PredictiveService {
   }
 
   private async getMetricTimeSeries(
-    companyId: string,
     metric: string,
     months: number,
   ): Promise<number[]> {
@@ -199,7 +201,7 @@ export class PredictiveService {
     return forecast;
   }
 
-  private analyzeSeasonality(data: number[]) {
+  private analyzeSeasonality() {
     const period = 12; // Annual seasonality
     const pattern = [];
 

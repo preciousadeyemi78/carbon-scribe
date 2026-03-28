@@ -16,7 +16,7 @@ export class ProjectComparisonService {
   /**
    * Compare multiple projects
    */
-  async compareProjects(projectIds: string[], metrics?: string[]) {
+  async compareProjects(projectIds: string[]) {
     const cacheKey = `comp:projects:${projectIds.join(',')}`;
     const cached = await this.cache.get(cacheKey);
 

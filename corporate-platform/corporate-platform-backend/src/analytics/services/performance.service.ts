@@ -175,7 +175,6 @@ export class PerformanceService {
     });
 
     const periodMap = new Map();
-    const periodLength = this.getPeriodLength(aggregation);
 
     retirements.forEach((retirement) => {
       const periodKey = this.getPeriodKey(retirement.retiredAt, aggregation);

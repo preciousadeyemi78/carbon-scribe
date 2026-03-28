@@ -31,7 +31,7 @@ export class DashboardService {
 
     const [projects, retirements, credits, topRegions, topTypes, activities] = await Promise.all([
       this.getProjectsMetrics(companyId),
-      this.getRetirementsMetrics(companyId, period),
+      this.getRetirementsMetrics(companyId),
       this.getCreditsMetrics(companyId),
       this.getTopRegions(companyId),
       this.getTopProjectTypes(companyId),
@@ -70,8 +70,8 @@ export class DashboardService {
     const [anomalies, trends, recommendations, riskAlerts] = await Promise.all([
       this.detectAnomalies(companyId),
       this.analyzeTrends(companyId),
-      this.generateRecommendations(companyId),
-      this.identifyRisks(companyId),
+      this.generateRecommendations(),
+      this.identifyRisks(),
     ]);
 
     const insights: DashboardInsights = {
@@ -96,7 +96,7 @@ export class DashboardService {
     };
   }
 
-  private async getRetirementsMetrics(companyId: string, period: string) {
+  private async getRetirementsMetrics(companyId: string) {
     const now = new Date();
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -246,7 +246,7 @@ export class DashboardService {
     ];
   }
 
-  private async generateRecommendations(companyId: string) {
+  private async generateRecommendations() {
     return [
       {
         id: '1',
@@ -258,7 +258,7 @@ export class DashboardService {
     ];
   }
 
-  private async identifyRisks(companyId: string) {
+  private async identifyRisks() {
     return [
       {
         id: '1',

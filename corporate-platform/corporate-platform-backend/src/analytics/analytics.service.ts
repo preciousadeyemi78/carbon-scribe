@@ -93,7 +93,7 @@ export class AnalyticsService {
   /**
    * Get date range for analytics
    */
-  getDateRange(startDate: string, endDate: string, period?: string) {
+  getDateRange(startDate: string, endDate: string) {
     const start = new Date(startDate);
     const end = new Date(endDate);
 

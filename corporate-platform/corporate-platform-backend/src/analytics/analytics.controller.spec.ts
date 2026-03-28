@@ -15,11 +15,7 @@ describe('AnalyticsController', () => {
   let dashboardService: DashboardService;
   let predictiveService: PredictiveService;
   let creditQualityService: CreditQualityService;
-  let performanceService: PerformanceService;
   let projectComparisonService: ProjectComparisonService;
-  let regionalService: RegionalService;
-  let teamPerformanceService: TeamPerformanceService;
-  let timelineService: TimelineService;
 
   const mockUser: JwtPayload = {
     sub: 'user123',
