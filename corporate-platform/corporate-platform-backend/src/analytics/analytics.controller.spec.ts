@@ -164,15 +164,9 @@ describe('AnalyticsController', () => {
     dashboardService = module.get<DashboardService>(DashboardService);
     predictiveService = module.get<PredictiveService>(PredictiveService);
     creditQualityService = module.get<CreditQualityService>(CreditQualityService);
-    performanceService = module.get<PerformanceService>(PerformanceService);
     projectComparisonService = module.get<ProjectComparisonService>(
       ProjectComparisonService,
     );
-    regionalService = module.get<RegionalService>(RegionalService);
-    teamPerformanceService = module.get<TeamPerformanceService>(
-      TeamPerformanceService,
-    );
-    timelineService = module.get<TimelineService>(TimelineService);
   });
 
   it('should be defined', () => {
