@@ -7,7 +7,7 @@ import {
   Target, ChevronRight, X, Send,
 } from 'lucide-react'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  Tooltip, ResponsiveContainer,
   PieChart as RechartsPieChart, Pie, Cell,
 } from 'recharts'
 import { useTeam } from '@/hooks/useTeam'
@@ -107,12 +107,12 @@ export default function TeamPage() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 min-w-[120px]">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 min-w-30">
               <div className="text-sm text-blue-200 mb-1">Members</div>
               <div className="text-2xl font-bold">{members.length}</div>
               <div className="text-xs text-green-300">{activeCount} active</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 min-w-[120px]">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 min-w-30">
               <div className="text-sm text-blue-200 mb-1">Pending Invites</div>
               <div className="text-2xl font-bold">{pendingInvitations.length}</div>
               <div className="text-xs text-blue-300">awaiting response</div>
