@@ -5,6 +5,11 @@ import { EsrsDisclosureService } from './services/esrs-disclosure.service';
 import { ReportGeneratorService } from './services/report-generator.service';
 import { AssuranceService } from './services/assurance.service';
 import { SecurityService } from '../security/security.service';
+import { RetirementVerificationService } from '../compliance/services/retirement-verification.service';
+import {
+  ComplianceFramework,
+  OffsetClaimStatus,
+} from '../compliance/dto/retirement-verification.dto';
 import { CreateMaterialityAssessmentDto } from './dto/assessment.dto';
 import {
   DisclosureQueryDto,
@@ -26,6 +31,7 @@ export class CsrdService {
     private readonly reportService: ReportGeneratorService,
     private readonly assuranceService: AssuranceService,
     private readonly securityService: SecurityService,
+    private readonly retirementVerificationService: RetirementVerificationService,
   ) {}
 
   async assessMateriality(
@@ -115,6 +121,41 @@ export class CsrdService {
       dto.assuredBy,
       userId,
     );
+  }
+
+  async verifyOffsetsForCompliance(
+    companyId: string,
+    tokenIds: string[],
+  ): Promise<{
+    valid: boolean;
+    results: Array<{ tokenId: string; valid: boolean; message: string }>;
+    totalValid: number;
+    totalTokens: number;
+  }> {
+    const verification =
+      await this.retirementVerificationService.verifyRetirements(companyId, {
+        tokens: tokenIds.map((id) => ({ tokenId: id })),
+        framework: ComplianceFramework.CSRD,
+      });
+
+    const results = verification.results.map((r) => ({
+      tokenId: r.tokenId,
+      valid: r.status === OffsetClaimStatus.VERIFIED,
+      message: r.message,
+    }));
+
+    const totalValid = results.filter((r) => r.valid).length;
+
+    this.logger.log(
+      `CSRD offset verification: ${totalValid}/${tokenIds.length} tokens valid for company ${companyId}`,
+    );
+
+    return {
+      valid: totalValid === tokenIds.length,
+      results,
+      totalValid,
+      totalTokens: tokenIds.length,
+    };
   }
 
   async getReadinessScorecard(companyId: string) {

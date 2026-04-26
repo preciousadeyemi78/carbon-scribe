@@ -6,6 +6,11 @@ import { EsrsDisclosureService } from './services/esrs-disclosure.service';
 import { ReportGeneratorService } from './services/report-generator.service';
 import { AssuranceService } from './services/assurance.service';
 import { SecurityService } from '../security/security.service';
+import { RetirementVerificationService } from '../compliance/services/retirement-verification.service';
+import {
+  ComplianceFramework,
+  OffsetClaimStatus,
+} from '../compliance/dto/retirement-verification.dto';
 import { EsrsStandard } from './interfaces/disclosure.interface';
 
 const MOCK_COMPANY = 'company-123';
@@ -66,6 +71,10 @@ const mockSecurityService = {
   logEvent: jest.fn().mockResolvedValue(undefined),
 };
 
+const mockRetirementVerificationService = {
+  verifyRetirements: jest.fn(),
+};
+
 describe('CsrdService', () => {
   let service: CsrdService;
 
@@ -79,6 +88,10 @@ describe('CsrdService', () => {
         { provide: ReportGeneratorService, useValue: mockReportService },
         { provide: AssuranceService, useValue: mockAssuranceService },
         { provide: SecurityService, useValue: mockSecurityService },
+        {
+          provide: RetirementVerificationService,
+          useValue: mockRetirementVerificationService,
+        },
       ],
     }).compile();
 
@@ -224,6 +237,44 @@ describe('CsrdService', () => {
       const dto = { assuranceLevel: 'REASONABLE' as const, assuredBy: 'PwC' };
       const result = await service.updateAssurance(MOCK_COMPANY, 'disc-1', dto);
       expect(result.assuranceLevel).toBe('REASONABLE');
+    });
+  });
+
+  describe('verifyOffsetsForCompliance', () => {
+    it('should return valid=true when all tokens are verified', async () => {
+      mockRetirementVerificationService.verifyRetirements.mockResolvedValueOnce({
+        results: [
+          { tokenId: 'tok-1', status: OffsetClaimStatus.VERIFIED, message: 'OK' },
+          { tokenId: 'tok-2', status: OffsetClaimStatus.VERIFIED, message: 'OK' },
+        ],
+      });
+      const result = await service.verifyOffsetsForCompliance(MOCK_COMPANY, [
+        'tok-1',
+        'tok-2',
+      ]);
+      expect(result.valid).toBe(true);
+      expect(result.totalValid).toBe(2);
+      expect(result.totalTokens).toBe(2);
+      expect(mockRetirementVerificationService.verifyRetirements).toHaveBeenCalledWith(
+        MOCK_COMPANY,
+        expect.objectContaining({ framework: ComplianceFramework.CSRD }),
+      );
+    });
+
+    it('should return valid=false when some tokens fail verification', async () => {
+      mockRetirementVerificationService.verifyRetirements.mockResolvedValueOnce({
+        results: [
+          { tokenId: 'tok-1', status: OffsetClaimStatus.VERIFIED, message: 'OK' },
+          { tokenId: 'tok-2', status: OffsetClaimStatus.ALREADY_CLAIMED, message: 'Double claim' },
+        ],
+      });
+      const result = await service.verifyOffsetsForCompliance(MOCK_COMPANY, [
+        'tok-1',
+        'tok-2',
+      ]);
+      expect(result.valid).toBe(false);
+      expect(result.totalValid).toBe(1);
+      expect(result.results[1].valid).toBe(false);
     });
   });
 
