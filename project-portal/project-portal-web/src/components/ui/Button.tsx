@@ -7,6 +7,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
   loading?: boolean;
+  /** Accessible label for icon-only buttons */
+  ariaLabel?: string;
 }
 
 const variantClasses: Record<Variant, string> = {
@@ -37,6 +39,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       className = '',
       children,
+      ariaLabel,
+      type = 'button',
       ...props
     },
     ref
@@ -44,6 +48,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
+        type={type}
         disabled={disabled || loading}
         className={[
           'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all',
@@ -53,6 +58,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           sizeClasses[size],
           className,
         ].join(' ')}
+        aria-busy={loading}
+        aria-label={ariaLabel}
         {...props}
       >
         {loading && (
@@ -61,6 +68,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             viewBox="0 0 24 24"
             fill="none"
             aria-hidden="true"
+            role="status"
           >
             <circle
               className="opacity-25"

@@ -80,11 +80,12 @@ const PortalNavbar = () => {
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
-                type="text"
+                type="search"
                 placeholder="Search projects, credits, or analytics..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors"
+                aria-label="Search projects, credits, or analytics"
               />
             </div>
           </div>
@@ -92,8 +93,11 @@ const PortalNavbar = () => {
           {/* Right Actions */}
           <div className="flex items-center space-x-2">
             {/* Language Selector */}
-            <button className="hidden md:flex items-center space-x-1 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-              <Globe className="w-5 h-5" />
+            <button 
+              className="hidden md:flex items-center space-x-1 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              aria-label="Select language, current: English"
+            >
+              <Globe className="w-5 h-5" aria-hidden="true" />
               <span className="font-medium text-sm">EN</span>
             </button>
 
@@ -108,11 +112,11 @@ const PortalNavbar = () => {
 
             {/* Notifications */}
             <button
-              aria-label="Notifications"
+              aria-label="Notifications, new alerts available"
               className="relative p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
             >
-              <Bell className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+              <Bell className="w-5 h-5 text-gray-700 dark:text-gray-300" aria-hidden="true" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" aria-hidden="true" />
             </button>
 
             {/* User Avatar + Dropdown */}
@@ -126,7 +130,7 @@ const PortalNavbar = () => {
                   className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   {/* Avatar circle */}
-                  <div className="w-8 h-8 rounded-full bg-linear-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm font-semibold select-none">
+                  <div className="w-8 h-8 rounded-full bg-linear-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm font-semibold select-none" aria-hidden="true">
                     {isAuthenticated ? initials : <User className="w-4 h-4" />}
                   </div>
                   <span className="hidden md:block text-sm font-medium text-gray-900 dark:text-gray-100 max-w-[120px] truncate">
@@ -156,7 +160,7 @@ const PortalNavbar = () => {
                       onClick={() => { setProfileOpen(false); router.push('/settings'); }}
                       className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                     >
-                      <User className="w-4 h-4" />
+                      <User className="w-4 h-4" aria-hidden="true" />
                       View Profile
                     </button>
 
@@ -165,7 +169,7 @@ const PortalNavbar = () => {
                       onClick={() => { setProfileOpen(false); router.push('/settings'); }}
                       className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                     >
-                      <Settings className="w-4 h-4" />
+                      <Settings className="w-4 h-4" aria-hidden="true" />
                       Account Settings
                     </button>
 
@@ -177,7 +181,7 @@ const PortalNavbar = () => {
                           onClick={handleLogout}
                           className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         >
-                          <LogOut className="w-4 h-4" />
+                          <LogOut className="w-4 h-4" aria-hidden="true" />
                           Logout
                         </button>
                       </>
