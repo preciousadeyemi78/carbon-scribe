@@ -195,6 +195,19 @@ JWT_EXPIRY=15m
 
 `PORT=4000` is recommended locally to avoid conflicts with other services on `3000`.
 
+## Retirement Scheduling API
+
+The backend supports both plural and singular scheduling route prefixes for compatibility:
+
+- `POST /api/v1/retirement-schedules` and `POST /api/v1/retirement-scheduling`
+- `GET /api/v1/retirement-schedules` and `GET /api/v1/retirement-scheduling`
+- `GET /api/v1/retirement-schedules/:id` and `GET /api/v1/retirement-scheduling/:id`
+- `PATCH /api/v1/retirement-schedules/:id`
+- `PATCH /api/v1/retirement-scheduling/:id` and `PUT /api/v1/retirement-scheduling/:id`
+- `DELETE /api/v1/retirement-schedules/:id` and `DELETE /api/v1/retirement-scheduling/:id`
+
+`PUT` support on the singular route is provided for frontend clients that perform full-update semantics.
+
 ## 📁 Project Structure
 ```
 corporate-platform-backend/

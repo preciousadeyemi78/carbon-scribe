@@ -7,6 +7,7 @@ A modern Next.js web application for corporate buyers to purchase, manage, and r
 - **Dashboard Overview**: Real-time portfolio metrics and performance analytics
 - **Credit Marketplace**: Browse and purchase verified carbon credits
 - **Instant Retirement**: Retire credits with on-chain verification
+- **Retirement Scheduling**: Create, edit, and cancel future retirement events with reminder windows
 - **Portfolio Analytics**: Visual breakdown by methodology and region
 - **Live Retirement Feed**: Real-time updates on corporate retirements
 - **Stellar Transfer Center**: Initiate single and batch blockchain transfers, poll live status, and track on-chain confirmations
@@ -46,11 +47,28 @@ What is included:
 - Real-time polling for pending transfers
 - On-chain activity table with direct explorer links
 
+## Retirement Scheduling Integration
+
+The retirement view now integrates backend scheduling endpoints for full lifecycle management:
+
+- `POST /api/v1/retirement-scheduling`
+- `GET /api/v1/retirement-scheduling`
+- `GET /api/v1/retirement-scheduling/:id`
+- `PUT /api/v1/retirement-scheduling/:id`
+- `DELETE /api/v1/retirement-scheduling/:id`
+
+What is included:
+
+- Typed scheduling API service in `src/services/retirement-scheduling.service.ts`
+- Scheduling manager UI in `src/components/retirement/RetirementSchedulingManager.tsx`
+- Upcoming reminder cards based on `notifyBefore` and each schedule's `nextRunDate`
+- Unit and component tests for API methods and scheduling create/cancel/error flows
+
 ## Environment Variables
 
 Create `.env.local` from `.env.example` and configure:
 
-- `NEXT_PUBLIC_API_BASE_URL`: Base URL for backend API (example: `http://localhost:4000`)
+- `NEXT_PUBLIC_API_URL`: Base URL for backend API (example: `http://localhost:4000/api/v1`)
 - `NEXT_PUBLIC_STELLAR_EXPLORER_BASE_URL`: Explorer prefix used for transfer links
 
 ## Testing
