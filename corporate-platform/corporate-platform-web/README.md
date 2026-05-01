@@ -9,6 +9,7 @@ A modern Next.js web application for corporate buyers to purchase, manage, and r
 - **Instant Retirement**: Retire credits with on-chain verification
 - **Retirement Scheduling**: Create, edit, and cancel future retirement events with reminder windows
 - **Retirement Analytics**: Live impact, trend, forecast, and sustainability progress dashboards
+- **IPFS Document Management**: Upload, retrieve, pin, and verify documents/certificates via decentralized storage
 - **Portfolio Analytics**: Visual breakdown by methodology and region
 - **Live Retirement Feed**: Real-time updates on corporate retirements
 - **Stellar Transfer Center**: Initiate single and batch blockchain transfers, poll live status, and track on-chain confirmations
@@ -83,6 +84,28 @@ What is included:
 - Filter support for time range and aggregation (monthly/quarterly)
 - Resilient loading, error, and empty-state handling
 - Unit/component tests for analytics API wiring and UI states
+
+## IPFS Integration
+
+The web app now includes IPFS document and certificate management via:
+
+- `POST /api/v1/ipfs/upload`
+- `POST /api/v1/ipfs/batch/upload`
+- `POST /api/v1/ipfs/batch/pin`
+- `GET /api/v1/ipfs/:cid`
+- `GET /api/v1/ipfs/:cid/metadata`
+- `DELETE /api/v1/ipfs/:cid`
+- `POST /api/v1/ipfs/certificate/:retirementId`
+- `GET /api/v1/ipfs/certificate/:cid/verify`
+- `GET /api/v1/ipfs/documents`
+- `GET /api/v1/ipfs/documents/:referenceId`
+
+What is included:
+
+- Typed IPFS API client in `src/services/ipfs.service.ts`
+- Document and certificate manager UI in `src/components/ipfs/IpfsManager.tsx`
+- Support for single upload, batch upload, batch pin, CID retrieval, delete/unpin, certificate anchoring, and verification
+- Loading/error/success states and integration tests for core flows
 
 ## Environment Variables
 

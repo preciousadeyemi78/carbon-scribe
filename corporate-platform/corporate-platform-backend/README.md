@@ -223,6 +223,21 @@ For API key integrations, equivalent endpoints are available under:
 
 - `GET /api/v1/integrations/retirement-analytics/*`
 
+## IPFS API
+
+IPFS-backed document and certificate management endpoints are available at `api/v1/ipfs`:
+
+- `POST /api/v1/ipfs/upload`
+- `POST /api/v1/ipfs/batch/upload`
+- `POST /api/v1/ipfs/batch/pin`
+- `GET /api/v1/ipfs/:cid`
+- `GET /api/v1/ipfs/:cid/metadata`
+- `DELETE /api/v1/ipfs/:cid`
+- `POST /api/v1/ipfs/certificate/:retirementId`
+- `GET /api/v1/ipfs/certificate/:cid/verify`
+- `GET /api/v1/ipfs/documents`
+- `GET /api/v1/ipfs/documents/:referenceId`
+
 ## 📁 Project Structure
 ```
 corporate-platform-backend/
