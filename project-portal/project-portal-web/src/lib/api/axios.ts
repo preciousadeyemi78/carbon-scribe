@@ -20,9 +20,13 @@ export function setUserIdGetter(fn: () => string | null) {
   getUserId = fn;
 }
 
-// Attach X-User-ID header for financing endpoints if user is authenticated
+// Attach X-User-ID header for endpoints that require user identity context.
 api.interceptors.request.use((config) => {
-  if (getUserId && config.url && config.url.includes('/financing/')) {
+  const requiresUserHeader =
+    config.url &&
+    (config.url.includes('/financing/') || config.url.includes('/compliance/'));
+
+  if (getUserId && requiresUserHeader) {
     const userId = getUserId();
     if (userId) {
       if (typeof window !== 'undefined') {
